@@ -3,7 +3,6 @@
     [
     {
         "title": "   اداری   ",
-        "iconsOrdering": "[{\"id\":6,\"parentId\":1,\"title\":\"فیش حقوقی\",\"url\":\"userService/fish\",\"icon\":\"/assets/Content/img/icon/fish hoghughi.png\",\"visible\":true,\"disable\":false,\"orderIndex\":0,\"tootltip\":\"فیش حقوقی\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1/GVYgpjDeNdrbySF5FX35eOkwj1nE9jE4=\"},{\"id\":7,\"parentId\":1,\"title\":\"فرم خلاصه سوابق\",\"url\":\"userService/form502\",\"icon\":\"/assets/Content/img/icon/kholase savabegh.png\",\"visible\":true,\"disable\":false,\"orderIndex\":3,\"tootltip\":\"فرم خلاصه سوابق\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1+2410nttMu3dp5tLs5MoldH10Xkdvaq7U=\"},{\"id\":9,\"parentId\":1,\"title\":\"حکم شاغلین\",\"url\":\"userService/ordinance\",\"icon\":\"/assets/Content/img/icon/hokme shaghelin.png\",\"visible\":true,\"disable\":false,\"orderIndex\":1,\"tootltip\":\"حکم شاغلین\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1++mMS9e7h+CXPYmfvxH2JOSzRuiqnY1cQ=\"}]",
         "items": [
             {
                 "id": 6,
@@ -51,64 +50,6 @@
                 "timeDoreTypeId": 0,
                 "userId": 0
             },
-        ]
-    },
-    {
-        "title": "آموزشی",
-        "iconsOrdering": "[{\"id\":6,\"parentId\":1,\"title\":\"فیش حقوقی\",\"url\":\"userService/fish\",\"icon\":\"/assets/Content/img/icon/fish hoghughi.png\",\"visible\":true,\"disable\":false,\"orderIndex\":0,\"tootltip\":\"فیش حقوقی\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1/GVYgpjDeNdrbySF5FX35eOkwj1nE9jE4=\"},{\"id\":7,\"parentId\":1,\"title\":\"فرم خلاصه سوابق\",\"url\":\"userService/form502\",\"icon\":\"/assets/Content/img/icon/kholase savabegh.png\",\"visible\":true,\"disable\":false,\"orderIndex\":3,\"tootltip\":\"فرم خلاصه سوابق\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1+2410nttMu3dp5tLs5MoldH10Xkdvaq7U=\"},{\"id\":9,\"parentId\":1,\"title\":\"حکم شاغلین\",\"url\":\"userService/ordinance\",\"icon\":\"/assets/Content/img/icon/hokme shaghelin.png\",\"visible\":true,\"disable\":false,\"orderIndex\":1,\"tootltip\":\"حکم شاغلین\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1++mMS9e7h+CXPYmfvxH2JOSzRuiqnY1cQ=\"}]",
-        "items": [
-            {
-                "id": 22,
-                "parentId": 66,
-                "title": "ضمن خدمت",
-                "url": "ltms",
-                "icon": "/assets/img/pages/icons/ltms.png",
-                "visible": true,
-                "disable": false,
-                "orderIndex": 0,
-                "tootltip": "ضمن خدمت",
-                "urlActionType": 7,
-                "iconType": 0,
-                "popupContent": null,
-                "gradeId": 0,
-                "majorId": 0,
-                "nationalityId": 0,
-                "schoolTypeId": 0,
-                "stageId": 0,
-                "typeId": 0,
-                "genderId": 0,
-                "timeDoreTypeId": 0,
-                "userId": 0
-            },
-            {
-                "id": 53,
-                "parentId": 66,
-                "title": "خرید کتب درسی",
-                "url": "azadirtextbook",
-                "icon": "/assets/img/pages/student/icons/books.png",
-                "visible": true,
-                "disable": false,
-                "orderIndex": 1,
-                "tootltip": "خرید کتب درسی",
-                "urlActionType": 7,
-                "iconType": 0,
-                "popupContent": null,
-                "gradeId": 0,
-                "majorId": 0,
-                "nationalityId": 0,
-                "schoolTypeId": 0,
-                "stageId": 0,
-                "typeId": 0,
-                "genderId": 0,
-                "timeDoreTypeId": 0,
-                "userId": 0
-            },
-        ]
-    },
-    {
-        "title": "رفاهی",
-        "iconsOrdering": "[{\"id\":6,\"parentId\":1,\"title\":\"فیش حقوقی\",\"url\":\"userService/fish\",\"icon\":\"/assets/Content/img/icon/fish hoghughi.png\",\"visible\":true,\"disable\":false,\"orderIndex\":0,\"tootltip\":\"فیش حقوقی\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1/GVYgpjDeNdrbySF5FX35eOkwj1nE9jE4=\"},{\"id\":7,\"parentId\":1,\"title\":\"فرم خلاصه سوابق\",\"url\":\"userService/form502\",\"icon\":\"/assets/Content/img/icon/kholase savabegh.png\",\"visible\":true,\"disable\":false,\"orderIndex\":3,\"tootltip\":\"فرم خلاصه سوابق\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1+2410nttMu3dp5tLs5MoldH10Xkdvaq7U=\"},{\"id\":9,\"parentId\":1,\"title\":\"حکم شاغلین\",\"url\":\"userService/ordinance\",\"icon\":\"/assets/Content/img/icon/hokme shaghelin.png\",\"visible\":true,\"disable\":false,\"orderIndex\":1,\"tootltip\":\"حکم شاغلین\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1++mMS9e7h+CXPYmfvxH2JOSzRuiqnY1cQ=\"}]",
-        "items": [
             {
                 "id": 16,
                 "parentId": 67,
@@ -142,58 +83,6 @@
                 "disable": false,
                 "orderIndex": 1,
                 "tootltip": "مراکز اقامتی فرهنگیان",
-                "urlActionType": 7,
-                "iconType": 0,
-                "popupContent": null,
-                "gradeId": 0,
-                "majorId": 0,
-                "nationalityId": 0,
-                "schoolTypeId": 0,
-                "stageId": 0,
-                "typeId": 0,
-                "genderId": 0,
-                "timeDoreTypeId": 0,
-                "userId": 0
-            },
-        ]
-    },
-    {
-        "title": "سامانه های سازمانی",
-        "iconsOrdering": "[{\"id\":6,\"parentId\":1,\"title\":\"فیش حقوقی\",\"url\":\"userService/fish\",\"icon\":\"/assets/Content/img/icon/fish hoghughi.png\",\"visible\":true,\"disable\":false,\"orderIndex\":0,\"tootltip\":\"فیش حقوقی\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1/GVYgpjDeNdrbySF5FX35eOkwj1nE9jE4=\"},{\"id\":7,\"parentId\":1,\"title\":\"فرم خلاصه سوابق\",\"url\":\"userService/form502\",\"icon\":\"/assets/Content/img/icon/kholase savabegh.png\",\"visible\":true,\"disable\":false,\"orderIndex\":3,\"tootltip\":\"فرم خلاصه سوابق\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1+2410nttMu3dp5tLs5MoldH10Xkdvaq7U=\"},{\"id\":9,\"parentId\":1,\"title\":\"حکم شاغلین\",\"url\":\"userService/ordinance\",\"icon\":\"/assets/Content/img/icon/hokme shaghelin.png\",\"visible\":true,\"disable\":false,\"orderIndex\":1,\"tootltip\":\"حکم شاغلین\",\"urlActionType\":1,\"iconType\":0,\"popupContent\":null,\"disable1\":\"U2FsdGVkX1++mMS9e7h+CXPYmfvxH2JOSzRuiqnY1cQ=\"}]",
-        "items": [
-            {
-                "id": 19,
-                "parentId": 2,
-                "title": "سازمان نهضت سواد آموزی",
-                "url": "nehzat",
-                "icon": "/assets/img/landing-page/sazman/nehzat.png",
-                "visible": true,
-                "disable": false,
-                "orderIndex": 0,
-                "tootltip": "سازمان نهضت سواد آموزی",
-                "urlActionType": 7,
-                "iconType": 0,
-                "popupContent": null,
-                "gradeId": 0,
-                "majorId": 0,
-                "nationalityId": 0,
-                "schoolTypeId": 0,
-                "stageId": 0,
-                "typeId": 0,
-                "genderId": 0,
-                "timeDoreTypeId": 0,
-                "userId": 0
-            },
-            {
-                "id": 20,
-                "parentId": 2,
-                "title": "سازمان  آموزش و پرورش استثنائی",
-                "url": "est",
-                "icon": "/assets/img/landing-page/sazman/est.png",
-                "visible": true,
-                "disable": false,
-                "orderIndex": 1,
-                "tootltip": "سازمان  آموزش و پرورش استثنائی",
                 "urlActionType": 7,
                 "iconType": 0,
                 "popupContent": null,
