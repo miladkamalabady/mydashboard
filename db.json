@@ -1,9 +1,5 @@
 {
   "icons": [
-    [
-    {
-        "title": "   اداری   ",
-        "items": [
             {
                 "id": 6,
                 "parentId": 1,
@@ -96,9 +92,6 @@
                 "timeDoreTypeId": 0,
                 "userId": 0
             },
-        ]
-    }
-]
   ],
   "profile": {
     "name": "typicode"
