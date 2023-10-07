@@ -11,10 +11,11 @@ const TodoProvider = ({ children }) => {
         error:null
     }
     const [state, dispatch] = useReducer(todoReducer, initialState)
-    const getTodos = useCallback(async (limit="All") => {
+    const getTodos = useCallback(async (limit="10") => {
         try {
             dispatch({ type: "SET_TODOS", payload: [] })
-            let url=`https://jsonplaceholder.typicode.com/todos`
+            // let url=`https://jsonplaceholder.typicode.com/todos`
+            let url=`https://my-json-server.typicode.com/miladkamalabady/mydashboard/main/db.json/icons`
             if(limit!=='All')
             url+=`?_limit=${limit}`
             const response = await axios.get(url)

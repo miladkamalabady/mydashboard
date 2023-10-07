@@ -2,11 +2,10 @@ import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { useContext, useEffect } from "react";
 import TodoContext from "../context/TodoContext";
-import { Card } from 'react-bootstrap';
-import { Check2All, Check, Trash } from 'react-bootstrap-icons';
+import {  Table } from 'react-bootstrap';
+import { FileCheckFill, EyeFill, Trash,EyeSlash } from 'react-bootstrap-icons';
 import FilterTodos from '../components/todosC/Filter';
-import CreateTodo from '../components/todosC/Create';
-
+// import CreateTodo from '../components/todosC/Create';
 
 
 const Todos = () => {
@@ -18,29 +17,69 @@ const Todos = () => {
     }, [getTodos])
 
     return (
-        <div className="container mt-5">
+        <div className="p-5 mt-1">
             <div className="row g-3">
-
-
-                <CreateTodo />
+                {/* <CreateTodo /> */}
 
                 <FilterTodos />
-                {todos && !error && todos.map(todo => (
-                    <div key={todo.id} className='col-md-4'>
-                        <Card bg={todo.completed && "success"} text={todo.completed && "white"}>
-                            <Card.Body className="d-flex justify-content-between align-items-center">
-                                <div >
-                                    {todo.completed ? <del>{todo.title}</del> : <span>{todo.title}</span>}
-                                </div>
-                                <div className='d-flex justify-content-between align-items-center fs-6'>
-                                    {todo.completed ? <Check2All /> : <Check />}
-                                    <Trash />
-                                </div>
-                            </Card.Body>
-                        </Card>
-                    </div>
-                ))}
 
+                <Table responsive="true">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>عنوان</th>
+                            <th>مخاطب</th>
+                            <th>دسته</th>
+                            <th>نوع</th>
+                            <th>آدرس</th>
+                            <th>جایگاه SORT</th>
+                            <th>مقطع</th>
+                            <th>پایه</th>
+                            <th>رشته</th>
+                            <th>ملیت</th>
+                            <th>جنسیت</th>
+                            <th>تایم دوره</th>
+                            <th>کاربر</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {todos && !error && todos.map(todo => (
+                            <tr key={todo.id}>
+                                <td>{todo.id}</td>
+                                <td>
+                                    <img src={`https://my.medu.ir/${todo.icon}`} style={{ width: '30px' }} alt={todo.title} />
+                                    {todo.title}
+                                </td>
+                                <td>{todo.iconType === 0 ? "فرهنگی" : todo.iconType === 1 ? "دانش آموز" : "عموم مردم"}</td>
+                                <td>{todo.parentId}</td>
+                                <td>{
+                                todo.urlActionType===1 ? "آدرس داخلی" :
+                                (todo.urlActionType===3 || todo.urlActionType===5) ? "متفرقه" :
+                                !todo.urlActionType ? "بدون آدرس" :
+                                todo.urlActionType===7 ? "SSO" : todo.urlActionType
+                                }</td>
+                                <td>{todo.url}</td>
+                                <td>{todo.orderIndex}</td>
+                                <td>{(todo.stageId===0 ? "همه" : todo.stageId)}</td>
+                                <td>{(todo.gradeId===0 ? "همه" : todo.gradeId)}</td>
+                                <td>{(todo.majorId===0 ? "همه" : todo.majorId)}</td>
+                                <td>{(todo.nationalityId===0 ? "همه" : todo.nationalityId)}</td>
+                                <td>{(todo.schoolTypeId===0 ? "همه" : todo.schoolTypeId)}</td>
+                                <td>{(todo.genderId===0 ? "همه" : todo.genderId)}</td>
+                                <td>{(todo.timeDoreTypeId===0 ? "همه" : todo.timeDoreTypeId)}</td>
+                                <td>{(todo.userId===0 ? "همه" : todo.userId)}</td>
+                                <td>
+                                    <div className='d-flex justify-content-between align-items-center fs-5'>
+                                        {todo.disable ? <FileCheckFill color="red" title="غیرفعال می باشد" /> : <FileCheckFill color="royalblue" title="فعال می باشد" />}
+                                        {todo.visible ? <EyeFill color="royalblue" title="درحال نمایش می باشد" /> : <EyeSlash color="royalblue" title="مخفی می باشد" />}
+                                        <Trash color="red" title="حذف" />
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
                 {!todos[0] && !error &&
                     <div className="col-md-12">
                         <Spinner animation="border" role="status">
