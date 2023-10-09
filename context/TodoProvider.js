@@ -15,21 +15,25 @@ const TodoProvider = ({ children }) => {
         try {
             dispatch({ type: "SET_TODOS", payload: [] })
             // let url=`https://jsonplaceholder.typicode.com/todos`
-            let url=`https://my-json-server.typicode.com/miladkamalabady/mydashboard/main/db.json/icons`
+            // let url=`https://my-json-server.typicode.com/miladkamalabady/mydashboard/main/db.json/icons`
             if(limit!=='All')
             url+=`?_limit=${limit}`
             const response = await axios.get(url)
+            
             dispatch({ type: "SET_TODOS", payload: response.data })
             dispatch({ type: "SET_ERROR", payload:null })
         } catch (err) {
+            console.log(err);
             dispatch({ type: "SET_TODOS", payload: [] })
             dispatch({ type: "SET_ERROR", payload:err.message })
         }
     }, [])
-    const createTodos = useCallback(async (title) => {
+    const createTodos = useCallback(async (payload) => {
         try {
+            
             let url=`https://jsonplaceholder.typicode.com/todos`
-            const response = await axios.post(url,{title:title,completed:false})
+            const response = await axios.post(url,payload)
+            console.log(response);
             dispatch({ type: "SET_CREATE", payload: response.data })
             dispatch({ type: "SET_ERROR", payload:null })
         } catch (err) {
