@@ -15,7 +15,7 @@ const TodoProvider = ({ children }) => {
         try {
             dispatch({ type: "SET_TODOS", payload: [] })
             // let url=`https://jsonplaceholder.typicode.com/todos`
-            // let url=`https://my-json-server.typicode.com/miladkamalabady/mydashboard/main/db.json/icons`
+            let url=`https://my-json-server.typicode.com/miladkamalabady/mydashboard/main/db.json/icons`
             if(limit!=='All')
             url+=`?_limit=${limit}`
             const response = await axios.get(url)
@@ -23,7 +23,6 @@ const TodoProvider = ({ children }) => {
             dispatch({ type: "SET_TODOS", payload: response.data })
             dispatch({ type: "SET_ERROR", payload:null })
         } catch (err) {
-            console.log(err);
             dispatch({ type: "SET_TODOS", payload: [] })
             dispatch({ type: "SET_ERROR", payload:err.message })
         }
@@ -33,7 +32,6 @@ const TodoProvider = ({ children }) => {
             
             let url=`https://jsonplaceholder.typicode.com/todos`
             const response = await axios.post(url,payload)
-            console.log(response);
             dispatch({ type: "SET_CREATE", payload: response.data })
             dispatch({ type: "SET_ERROR", payload:null })
         } catch (err) {
@@ -41,8 +39,40 @@ const TodoProvider = ({ children }) => {
             dispatch({ type: "SET_ERROR", payload:err.message })
         }
     }, [])
+    const deleteTodos = useCallback(async (payload) => {
+        try {
+            
+            let url=`https://jsonplaceholder.typicode.com/todos/${payload}`
+             await axios.delete(url)
+            dispatch({ type: "SET_ERROR", payload:null })
+        } catch (err) {
+            dispatch({ type: "SET_CREATE", payload: null })
+            dispatch({ type: "SET_ERROR", payload:err.message })
+        }
+    }, [])
+    const enaTodos = useCallback(async (payload) => {
+        try {
+            let url=`https://jsonplaceholder.typicode.com/todos/${payload}`
+             await axios.delete(url)
+            dispatch({ type: "SET_ERROR", payload:null })
+        } catch (err) {
+            dispatch({ type: "SET_CREATE", payload: null })
+            dispatch({ type: "SET_ERROR", payload:err.message })
+        }
+    }, [])
+    const visibleTodos = useCallback(async (payload) => {
+        try {
+            let url=`https://jsonplaceholder.typicode.com/todos/${payload}`
+             await axios.delete(url)
+            dispatch({ type: "SET_ERROR", payload:null })
+        } catch (err) {
+            dispatch({ type: "SET_CREATE", payload: null })
+            dispatch({ type: "SET_ERROR", payload:err.message })
+        }
+    }, [])
+
     return (
-        <TodoContext.Provider value={{ ...state, getTodos,createTodos }}>
+        <TodoContext.Provider value={{ ...state, getTodos,createTodos,deleteTodos,visibleTodos,enaTodos }}>
             {children}
         </TodoContext.Provider>
     )

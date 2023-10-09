@@ -6,8 +6,11 @@ import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
+import { useNavigate  } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 const CreateService = () => {
+    const navigate = useNavigate ();
+
       const { createTodos } = useContext(TodoContext)
     const [loading, setLoading] = useState(false);
     const [validated, setValidated] = useState(false);
@@ -24,11 +27,12 @@ const CreateService = () => {
         }
         else {
             setLoading(true)
-            const formData = new FormData()
-            formData.append('setting', JSON.stringify(form))
             await createTodos(form)
             setLoading(false)
             setShow(true)
+            setTimeout(() => {
+                navigate("/todos");
+              }, 1000);
         }
     }
     return (
@@ -51,7 +55,7 @@ const CreateService = () => {
                         </Form.Group>
                         <Form.Group as={Col} md="3" >
                             <Form.Label>نوع مخاطب:</Form.Label>
-                            <Form.Select required aria-label="Default select ">
+                            <Form.Select required name="iconType" aria-label="Default select ">
                                 <option value="">یک مخاطب را انتخاب کنید:</option>
                                 <option value="3">فرهنگی رسمی</option>
                                 <option value="8">فرهنگی غیررسمی</option>
@@ -63,9 +67,9 @@ const CreateService = () => {
                                 مخاطب را انتخاب کنید
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group as={Col} md="3" >
+                        <Form.Group as={Col}  md="3" >
                             <Form.Label>آدرس آیکن سرویس:</Form.Label>
-                            <Form.Control required type="text" className="mx-2" placeholder='آیکن...' />
+                            <Form.Control required name="icon" type="text" className="mx-2" placeholder='/assets/img/pages/student/icons/kart shenasai.png' />
                             <Form.Control.Feedback type="invalid">
                                 آدرس را وارد کنید
                             </Form.Control.Feedback>
@@ -73,7 +77,7 @@ const CreateService = () => {
 
                         <Form.Group as={Col} md="3" controlId="validationTitle">
                             <Form.Label>URL سرویس/SSO:</Form.Label>
-                            <Form.Control required type="text" className="mx-2" placeholder='آدرس...' />
+                            <Form.Control required type="text" name="url" className="mx-2" placeholder='card' />
                             <Form.Control.Feedback type="invalid">
                                 آدرس URL را وارد کنید
                             </Form.Control.Feedback>
@@ -82,7 +86,7 @@ const CreateService = () => {
                     <Row className="mb-3">
                         <Form.Group as={Col} md="3" >
                             <Form.Label>دسته بندی:</Form.Label>
-                            <Form.Select required aria-label="Default select ">
+                            <Form.Select required name="parentId" aria-label="Default select ">
                                 <option value="">دسته بندی را انتخاب کنید:</option>
                                 <option value="3">اداری</option>
                                 <option value="8">آموزشی</option>
@@ -93,7 +97,7 @@ const CreateService = () => {
                         </Form.Group>
                         <Form.Group as={Col} md="3" >
                             <Form.Label>نوع آیکن:</Form.Label>
-                            <Form.Select required aria-label="Default select ">
+                            <Form.Select required name="urlActionType" aria-label="Default select ">
                                 <option value="">نوع آیکن را انتخاب کنید:</option>
                                 <option value="3">آدرس داخلی</option>
                                 <option value="8">آدرس خارجی</option>
@@ -106,10 +110,7 @@ const CreateService = () => {
 
                         <Form.Group as={Col} md="3" controlId="validationTitle">
                             <Form.Label>اندیس مرتب سازی:</Form.Label>
-                            <Form.Control required type="text" className="mx-2" placeholder='12' />
-                            <Form.Control.Feedback type="invalid">
-                                آدرس URL را وارد کنید
-                            </Form.Control.Feedback>
+                            <Form.Control type="number" name="orderIndex" className="mx-2" placeholder='12' />
                         </Form.Group>
                     </Row>
                     <Row className="mb-3">
@@ -184,7 +185,7 @@ const CreateService = () => {
 
                         <Form.Group as={Col} md="3" controlId="validationTitle">
                             <Form.Label>محدودیت کاربر:</Form.Label>
-                            <Form.Control required type="text" className="mx-2" placeholder='کاربر' />
+                            <Form.Control type="text" className="mx-2" placeholder='کاربر' />
                             <Form.Control.Feedback type="invalid">
                                 کاربر را وارد کنید
                             </Form.Control.Feedback>

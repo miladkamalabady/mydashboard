@@ -3,8 +3,11 @@ import Alert from 'react-bootstrap/Alert';
 import { useContext, useEffect } from "react";
 import TodoContext from "../context/TodoContext";
 import { Table } from 'react-bootstrap';
-import { FileCheckFill, EyeFill, Trash, EyeSlash } from 'react-bootstrap-icons';
 import FilterTodos from '../components/todosC/Filter';
+import DeleteSer from './DeleteSer';
+import EnableSer from './EnableSer';
+import VisibleSer from './VisibleSer';
+
 // import CreateTodo from '../components/todosC/Create';
 
 const Todos = () => {
@@ -67,9 +70,11 @@ const Todos = () => {
                                 <td>{(todo.userId === 0 ? "همه" : todo.userId)}</td>
                                 <td>
                                     <div className='d-flex justify-content-between align-items-center fs-5'>
-                                        {todo.disable ? <FileCheckFill color="red" title="غیرفعال می باشد" /> : <FileCheckFill color="royalblue" title="فعال می باشد" />}
-                                        {todo.visible ? <EyeFill color="royalblue" title="درحال نمایش می باشد" /> : <EyeSlash color="royalblue" title="مخفی می باشد" />}
-                                        <Trash color="red" title="حذف" />
+
+                                        <EnableSer {...todo} />
+                                        
+                                        <VisibleSer {...todo} />
+                                        <DeleteSer serviceId={todo.id} />
                                     </div>
                                 </td>
                             </tr>
