@@ -4,8 +4,6 @@ import TodoContext from "../context/TodoContext";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
-import Toast from 'react-bootstrap/Toast';
-import ToastContainer from 'react-bootstrap/ToastContainer';
 import { useNavigate  } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 const CreateService = () => {
@@ -14,9 +12,6 @@ const CreateService = () => {
       const { createTodos } = useContext(TodoContext)
     const [loading, setLoading] = useState(false);
     const [validated, setValidated] = useState(false);
-
-    const [show, setShow] = useState(false);
-
 
     const handleSubmit = async (e) => {
         const form = e.currentTarget;
@@ -29,20 +24,14 @@ const CreateService = () => {
             setLoading(true)
             await createTodos(form)
             setLoading(false)
-            setShow(true)
             setTimeout(() => {
                 navigate("/todos");
-              }, 1000);
+              }, 2000);
         }
     }
     return (
         <div className="p-5 mt-1 row">
             <div className='col-md-12'>
-                <ToastContainer position="top-center">
-                    <Toast dir="rtl" bg="success" onClose={() => setShow(false)} show={show} delay={3000} autohide>
-                        <Toast.Body className="text-white ">با موفقیت اضافه شد!</Toast.Body>
-                    </Toast>
-                </ToastContainer>
 
                 <Form noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}>
                     <Row className="mb-3">
