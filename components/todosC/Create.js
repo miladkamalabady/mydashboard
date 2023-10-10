@@ -1,6 +1,6 @@
 
-import { useContext, useState } from "react";
-import TodoContext from "../../context/TodoContext";
+import {  useState } from "react";
+// import TodoContext from "../../context/TodoContext";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
@@ -8,7 +8,7 @@ import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import { Row, Col } from "react-bootstrap";
 const CreateTodo = () => { 
-  const { createTodos } = useContext(TodoContext)
+  // const { createTodos } = useContext(TodoContext)
   const [loading, setLoading] = useState(false);
   const [validated, setValidated] = useState(false);
 

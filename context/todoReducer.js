@@ -10,6 +10,11 @@ const todoReducer = (state, action) => {
                 ...state,
                 error: action.payload
             };
+        case "SET_ERRORP":
+            return {
+                ...state,
+                errorp: action.payload
+            };
         case "SET_CREATE":
             return {
                 ...state,

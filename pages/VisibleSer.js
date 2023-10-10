@@ -26,7 +26,7 @@ const VisibleSer = (service) => {
                     <Toast.Body className="text-white ">با موفقیت تغییر کرد!</Toast.Body>
                 </Toast>
             </ToastContainer>
-            {service.disable ?
+            {service.visible ?
                 <EyeFill onClick={() => { handleEna() }} color="royalblue" title="درحال نمایش می باشد" /> : <EyeSlash onClick={() => { handleEna() }} color="royalblue" title="مخفی می باشد" />
             }
 
