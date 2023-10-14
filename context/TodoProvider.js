@@ -2,28 +2,102 @@
 import { useReducer, useCallback } from "react"
 import TodoContext from "./TodoContext";
 import todoReducer from "./todoReducer";
-import axios from 'axios';
+import axios from '../axiosConfig';
 import Swal from "sweetalert2";
 
 const TodoProvider = ({ children }) => {
     const initialState = {
+        GenderTypes:[],
+        GradeTypes:[],
+        Majors:[],
+        StageType:[],
+        TimeDoreType:[],
+        SchoolModalityType:[],
         todos: [],
         create: null,
         error: null,
         errorp: null
     }
     const [state, dispatch] = useReducer(todoReducer, initialState)
+
+    const getGenderTypes = useCallback(async () => {
+        try {
+            dispatch({ type: "SET_GenderTypes", payload: [] })
+            let url = `/general/GetGenderTypes`
+            const response = await axios.get(url)
+            dispatch({ type: "SET_GenderTypes", payload: response.data.data })
+        } catch (err) {
+            dispatch({ type: "SET_GenderTypes", payload: [] })
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const getGradeTypes = useCallback(async () => {
+        try {
+            dispatch({ type: "SET_GradeTypes", payload: [] })
+            let url = `/general/GetGradeTypes`
+            const response = await axios.get(url)
+            dispatch({ type: "SET_GradeTypes", payload: response.data.data })
+        } catch (err) {
+            dispatch({ type: "SET_GradeTypes", payload: [] })
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const getMajors = useCallback(async () => {
+        try {
+            dispatch({ type: "SET_Majors", payload: [] })
+            let url = `/general/GetMajors`
+            const response = await axios.get(url)
+            dispatch({ type: "SET_Majors", payload: response.data.data })
+        } catch (err) {
+            dispatch({ type: "SET_Majors", payload: [] })
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const getStageType = useCallback(async () => {
+        try {
+            dispatch({ type: "SET_StageType", payload: [] })
+            let url = `/general/GetStageType`
+            const response = await axios.get(url)
+            dispatch({ type: "SET_StageType", payload: response.data.data })
+        } catch (err) {
+            dispatch({ type: "SET_StageType", payload: [] })
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const getTimeDoreType = useCallback(async () => {
+        try {
+            dispatch({ type: "SET_TimeDoreType", payload: [] })
+            let url = `/general/GetTimeDoreType`
+            const response = await axios.get(url)
+            dispatch({ type: "SET_TimeDoreType", payload: response.data.data })
+        } catch (err) {
+            dispatch({ type: "SET_TimeDoreType", payload: [] })
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const getSchoolModalityType = useCallback(async () => {
+        try {
+            dispatch({ type: "SET_SchoolModalityType", payload: [] })
+            let url = `/general/GetSchoolModalityType`
+            const response = await axios.get(url)
+            dispatch({ type: "SET_SchoolModalityType", payload: response.data.data })
+        } catch (err) {
+            dispatch({ type: "SET_SchoolModalityType", payload: [] })
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+
     const getTodos = useCallback(async (limit = "10") => {
         try {
             dispatch({ type: "SET_TODOS", payload: [] })
-            let url = `https://myssl.medu.ir/api/service/GetServices`
+            let url = `/service/GetServices`
             // let url=`https://my-json-server.typicode.com/miladkamalabady/mydashboard/main/db.json/icons`
             if (limit !== 'All')
                 url += `?_limit=${limit}`
             const response = await axios.get(url)
 
             dispatch({ type: "SET_TODOS", payload: response.data.data })
-            dispatch({ type: "SET_ERROR", payload: null })
+            // dispatch({ type: "SET_ERROR", payload: null })
         } catch (err) {
             dispatch({ type: "SET_TODOS", payload: [] })
             dispatch({ type: "SET_ERROR", payload: err.message })
@@ -31,7 +105,6 @@ const TodoProvider = ({ children }) => {
     }, [])
     const createTodos = useCallback(async (payload) => {
         try {
-
             let url = `https://jsonplaceholder.typicode.com/todos`
             const response = await axios.post(url, payload)
             dispatch({ type: "SET_CREATE", payload: response.data })
@@ -49,9 +122,8 @@ const TodoProvider = ({ children }) => {
     }, [])
     const deleteTodos = useCallback(async (payload) => {
         try {
-
-            let url = `https://myssl.medu.ir/api/service/delete?id=${payload}`
-            const response = await axios.delete(url)
+            let url = `/service/delete?id=${payload}`
+            const response = await axios.get(url)
             if (response.data.resultCode === 200) {
                 dispatch({ type: "SET_ERROR", payload: null })
                 Swal.fire({
@@ -61,7 +133,7 @@ const TodoProvider = ({ children }) => {
                     timer: 3000
                 })
             }else{
-                dispatch({ type: "SET_ERRORP", payload: response.data.data })
+                dispatch({ type: "SET_ERROR", payload: response.data.data })
                 Swal.fire({
                     icon: 'error',
                     title: response.data.data,
@@ -71,14 +143,20 @@ const TodoProvider = ({ children }) => {
             }
 
         } catch (err) {
-            dispatch({ type: "SET_CREATE", payload: null })
+            // dispatch({ type: "SET_CREATE", payload: null })
             dispatch({ type: "SET_ERROR", payload: err.message })
+            Swal.fire({
+                icon: 'error',
+                title: err.message,
+                showConfirmButton: false,
+                timer: 3000
+            })
         }
     }, [])
     const enaTodos = useCallback(async (payload) => {
         try {
             // let url=`https://jsonplaceholder.typicode.com/todos/${payload}`
-            let url = `https://myssl.medu.ir/api/service/SetEnabled?id=${payload.id}&enabled=${payload.disable}`
+            let url = `/service/SetEnabled?id=${payload.id}&enabled=${payload.disable}`
             const response = await axios.get(url, { ...payload })
 
             if (response.data.resultCode === 200) {
@@ -106,7 +184,7 @@ const TodoProvider = ({ children }) => {
     }, [])
     const visibleTodos = useCallback(async (payload) => {
         try {
-            let url = `https://myssl.medu.ir/api/service/SetVisible?id=${payload.id}&enabled=${payload.visible}`
+            let url = `/service/SetVisible?id=${payload.id}&visible=${!payload.visible}`
             const response = await axios.get(url, { ...payload })
             if (response.data.resultCode === 200) {
                 // dispatch({ type: "SET_ERRORP", payload: null })
@@ -133,7 +211,7 @@ const TodoProvider = ({ children }) => {
     }, [])
 
     return (
-        <TodoContext.Provider value={{ ...state, getTodos, createTodos, deleteTodos, visibleTodos, enaTodos }}>
+        <TodoContext.Provider value={{ ...state, getTodos, createTodos, deleteTodos, visibleTodos, enaTodos,getGenderTypes,getGradeTypes,getMajors,getStageType,getTimeDoreType,getSchoolModalityType }}>
             {children}
         </TodoContext.Provider>
     )

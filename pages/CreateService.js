@@ -1,17 +1,30 @@
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TodoContext from "../context/TodoContext";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-const CreateService = () => {
-    const navigate = useNavigate ();
 
-      const { createTodos } = useContext(TodoContext)
+const CreateService = () => {
+    const navigate = useNavigate();
+
+    const { createTodos, getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType,
+        GenderTypes, Majors, StageType, TimeDoreType, SchoolModalityType, GradeTypes } = useContext(TodoContext)
     const [loading, setLoading] = useState(false);
     const [validated, setValidated] = useState(false);
+    
+    useEffect(() => {
+        (() => {
+            getGenderTypes()
+            getGradeTypes()
+            getMajors()
+            getStageType()
+            getTimeDoreType()
+            getSchoolModalityType()
+        })()
+    }, [getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType])
 
     const handleSubmit = async (e) => {
         const form = e.currentTarget;
@@ -26,7 +39,7 @@ const CreateService = () => {
             setLoading(false)
             setTimeout(() => {
                 navigate("/todos");
-              }, 2000);
+            }, 2000);
         }
     }
     return (
@@ -44,7 +57,7 @@ const CreateService = () => {
                         </Form.Group>
                         <Form.Group as={Col} md="3" >
                             <Form.Label>نوع مخاطب:</Form.Label>
-                            <Form.Select required name="iconType" aria-label="Default select ">
+                            <Form.Select required name="iconType" size="1" multiple  >
                                 <option value="">یک مخاطب را انتخاب کنید:</option>
                                 <option value="3">فرهنگی رسمی</option>
                                 <option value="8">فرهنگی غیررسمی</option>
@@ -56,7 +69,7 @@ const CreateService = () => {
                                 مخاطب را انتخاب کنید
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group as={Col}  md="3" >
+                        <Form.Group as={Col} md="3" >
                             <Form.Label>آدرس آیکن سرویس:</Form.Label>
                             <Form.Control required name="icon" type="text" className="mx-2" placeholder='/assets/img/pages/student/icons/kart shenasai.png' />
                             <Form.Control.Feedback type="invalid">
@@ -103,23 +116,28 @@ const CreateService = () => {
                         </Form.Group>
                     </Row>
                     <Row className="mb-3">
+
                         <Form.Group as={Col} md="3" >
-                            <Form.Label>دوره:</Form.Label>
+                            <Form.Label>مقطع:</Form.Label>
                             <Form.Select required aria-label="Default select ">
-                                <option value="NULL">همه</option>
-                                <option value="3">ابتدایی</option>
-                                <option value="8">متوسطه اول</option>
+                                {
+                                    StageType.map(function (Stage) {
+                                        return <option key={Stage.value} value={Stage.value}>{Stage.text}</option>
+                                    })
+                                }
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">
-                                دوره را انتخاب کنید
+                                مقطع را انتخاب کنید
                             </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group as={Col} md="3" >
                             <Form.Label>پایه:</Form.Label>
                             <Form.Select required aria-label="Default select ">
-                                <option value="NULL">همه</option>
-                                <option value="3">اول</option>
-                                <option value="8">دوم</option>
+                                {
+                                    GradeTypes.map(function (Stage) {
+                                        return <option key={Stage.value} value={Stage.value}>{Stage.text}</option>
+                                    })
+                                }
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">
                                 پایه را انتخاب کنید
@@ -128,9 +146,11 @@ const CreateService = () => {
                         <Form.Group as={Col} md="3" >
                             <Form.Label>رشته:</Form.Label>
                             <Form.Select required aria-label="Default select ">
-                                <option value="NULL">همه</option>
-                                <option value="3">تجربی</option>
-                                <option value="8">ریاضی</option>
+                                {
+                                    Majors.map(function (Major) {
+                                        return <option key={Major.id} value={Major.id}>{Major.title}</option>
+                                    })
+                                }
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">
                                 رشته را انتخاب کنید
@@ -152,9 +172,11 @@ const CreateService = () => {
                         <Form.Group as={Col} md="3" >
                             <Form.Label>جنسیت:</Form.Label>
                             <Form.Select required aria-label="Default select ">
-                                <option value="NULL">همه</option>
-                                <option value="3">آقا</option>
-                                <option value="8">خانم</option>
+                                {
+                                    GenderTypes.map(function (gender) {
+                                        return <option key={gender.value} value={gender.value}>{gender.text}</option>
+                                    })
+                                }
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">
                                 جنسیت را انتخاب کنید
@@ -163,12 +185,27 @@ const CreateService = () => {
                         <Form.Group as={Col} md="3" >
                             <Form.Label>تایم دوره:</Form.Label>
                             <Form.Select required aria-label="Default select ">
-                                <option value="NULL">همه</option>
-                                <option value="ضمن سال">ضمن سال</option>
-                                <option value="تابستان">تابستان</option>
+                                {
+                                    TimeDoreType.map(function (t) {
+                                        return <option key={t.value} value={t.value}>{t.text}</option>
+                                    })
+                                }
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">
                                 تایم دوره را انتخاب کنید
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group as={Col} md="3" >
+                            <Form.Label>نوع مدرسه:</Form.Label>
+                            <Form.Select required aria-label="Default select ">
+                                {
+                                    SchoolModalityType.map(function (t) {
+                                        return <option key={t.value} value={t.value}>{t.text}</option>
+                                    })
+                                }
+                            </Form.Select>
+                            <Form.Control.Feedback type="invalid">
+                                نوع مدرسه را انتخاب کنید
                             </Form.Control.Feedback>
                         </Form.Group>
 

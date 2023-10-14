@@ -37,7 +37,7 @@ const Todos = () => {
 
             <div className="row g-3">
                 <FilterTodos />
-                <Table responsive="true">
+                <Table responsive >
                     <thead>
                         <tr>
                             <th>#</th>
@@ -60,7 +60,7 @@ const Todos = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {todos && !error && todos.filter(e => (e.urlActionType)).map((todo, index) => (
+                        {todos && todos.filter(e => (e.urlActionType)).map((todo, index) => (
                             <tr key={index}>
                                 <td>{todo.id}</td>
                                 <td>
