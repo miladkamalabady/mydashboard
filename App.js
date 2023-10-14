@@ -32,7 +32,7 @@ function App() {
         :
         <Routes>
           < Route exact path="/" element={<Home />} />
-          <Route exact path="/todos" element={login ?
+          <Route exact path="/services" element={login ?
             <TodoProvider>
               <Todos />
             </TodoProvider>

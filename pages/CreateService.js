@@ -38,7 +38,7 @@ const CreateService = () => {
             await createTodos(form)
             setLoading(false)
             setTimeout(() => {
-                navigate("/todos");
+                navigate("/services");
             }, 2000);
         }
     }

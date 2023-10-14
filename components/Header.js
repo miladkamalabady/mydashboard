@@ -21,7 +21,7 @@ const Header = () => {
           <Nav className="">
             <NavLink className="nav-link" to="/">خانه</NavLink>
             <NavDropdown title="سرویس ها" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/todos">لیست سرویس ها</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/services">لیست سرویس ها</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/services/create">ایجاد سرویس</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/services/create">ایجاد بخش</NavDropdown.Item>
               <NavDropdown.Divider />

@@ -9,7 +9,7 @@ const Home = () => {
                     {/* <p className="mt-4">
                         پنل مدیریت پنجره واحد خدمات الکترونیک آموزش و پرورش
                     </p>
-                    <Link to="/todos" className="btn btn-dark">مشاهده آیکن ها</Link> */}
+                    <Link to="/services" className="btn btn-dark">مشاهده آیکن ها</Link> */}
                 </div>
             </div>
         </div >
