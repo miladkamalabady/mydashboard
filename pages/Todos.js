@@ -2,7 +2,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import TodoContext from "../context/TodoContext";
-import { Table } from 'react-bootstrap';
+import { Badge, Card, Col, ListGroup, Row, Table } from 'react-bootstrap';
 import FilterTodos from '../components/todosC/Filter';
 // import ExpandedComponent from '../components/todosC/ExpandedComponent';
 import DeleteSer from './DeleteSer';
@@ -199,41 +199,41 @@ const Todos = () => {
     };
     const conditionalRowStyles = [
         {
-            when: row => row.typeId ===3,
+            when: row => row.typeId === 3,
             style: {
                 backgroundColor: 'rgba(63, 195, 128, 0.9)',
                 color: 'white',
             },
         },
         {
-            when: row => row.typeId ===8,
+            when: row => row.typeId === 8,
             style: {
                 backgroundColor: 'rgba(63, 195, 128, 0.5)',
                 color: 'black',
             },
         },
         {
-            when: row => row.typeId ===5,
+            when: row => row.typeId === 5,
             style: {
                 backgroundColor: 'rgba(0, 50, 100, 0.4)',
                 color: 'black',
             },
         },
         {
-            when: row => row.typeId ===2,
+            when: row => row.typeId === 2,
             style: {
                 backgroundColor: 'rgba(242, 38, 19, 0.3)',
                 color: 'black',
             },
         },
     ];
-    
+
     return (
         <div className="p-5 mt-1">
 
             <div className="row g-3">
                 <FilterTodos />
-                <DataTable
+                {true && <DataTable
                     title="سرویس ها"
                     data={todos.filter(e => (e.parentId === null))}
                     columns={columns}
@@ -246,8 +246,45 @@ const Todos = () => {
                     dense
                     pagination
                     onSelectedRowsChange={handleChange}
-                />
-
+                />}
+                {todos &&
+                    <div className="container mt-5">
+                        <div className="row text-center">
+                            <div className="col-md-12">
+                                <h2>لیست سرویس ها</h2>
+                            </div>
+                        </div>
+                        <Row xs={2} md={4} className="g-4">
+                            {todos.map((_, idx) => (
+                                <Col key={idx}>
+                                    <Card bg={_.typeId === 3 ? 'info' : _.typeId === 5 ? 'warning' : _.typeId === 8 ? 'secondary' : _.typeId === 2 ? 'danger' : 'white'} key={_.id} text={(_.typeId === 5 || _.typeId === 2) ? 'dark' : 'white'}>
+                                        {_.icon && <Card.Img variant="center" style={{ width: '50px', margin: 'auto' }} src={`https://my.medu.ir/${_.icon}`} />}
+                                        <Card.Body>
+                                            <Card.Title className='text-center'>{_.title}</Card.Title>
+                                            <Card.Text>
+                                                <Badge bg="primary">{_.usertTypeTitle}</Badge>
+                                                {_.parentId && <Badge bg="primary">{finditem(_.parentId)}</Badge>}
+                                            </Card.Text>
+                                        </Card.Body>
+                                        <ListGroup className="list-group-flush">
+                                            {_.urlActionTypeTitle && <ListGroup.Item>نوع: {_.urlActionTypeTitle}</ListGroup.Item>}
+                                            {_.url && <ListGroup.Item>آدرس: {_.url}</ListGroup.Item>}
+                                            <ListGroup.Item> ترتیب: {_.orderIndex}</ListGroup.Item>
+                                            {_.popupContent && <ListGroup.Item>پیام : {_.popupContent}</ListGroup.Item>}
+                                        </ListGroup>
+                                        <Card.Body>
+                                            <div className='d-flex justify-content-between align-items-center fs-5'>
+                                                {_.parentId && <EnableSer {..._} />}
+                                                <VisibleSer {..._} />
+                                                {_.parentId && <DeleteSer serviceId={_.id} />}
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))}
+                        </Row>
+                    </div >
+                }
                 {false &&
                     <Table responsive >
                         <thead>
