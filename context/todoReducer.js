@@ -5,11 +5,11 @@ const todoReducer = (state, action) => {
                 ...state,
                 GenderTypes: action.payload
             };
-          case "SET_GradeTypes":
+        case "SET_GradeTypes":
             return {
                 ...state,
                 GradeTypes: action.payload
-            };  
+            };
         case "SET_Majors":
             return {
                 ...state,
@@ -33,7 +33,20 @@ const todoReducer = (state, action) => {
         case "SET_TODOS":
             return {
                 ...state,
+                todosAll: action.payload,
                 todos: action.payload
+            };
+        case "SET_TODOSFilter":
+            let data = []
+            if (Number(action.payload) !== 0)
+                data = state.todosAll.filter(e => (e.typeId === Number(action.payload)))
+            else
+                data = state.todosAll
+            //     if (Number(action.payload) === 8)
+            // console.log(data);
+            return {
+                ...state,
+                todos: data
             };
         case "SET_ERROR":
             return {

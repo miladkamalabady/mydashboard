@@ -14,6 +14,7 @@ const TodoProvider = ({ children }) => {
         TimeDoreType:[],
         SchoolModalityType:[],
         todos: [],
+        todosAll: [],
         create: null,
         error: null,
         errorp: null
@@ -98,6 +99,17 @@ const TodoProvider = ({ children }) => {
 
             dispatch({ type: "SET_TODOS", payload: response.data.data })
             // dispatch({ type: "SET_ERROR", payload: null })
+        } catch (err) {
+            dispatch({ type: "SET_TODOS", payload: [] })
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+
+    const filterTodos = useCallback( (filter) => {
+        try {
+            // let payData=state.todos.filter(e=>(e.typeId===Number(filter)))
+            
+            dispatch({ type: "SET_TODOSFilter", payload: filter })
         } catch (err) {
             dispatch({ type: "SET_TODOS", payload: [] })
             dispatch({ type: "SET_ERROR", payload: err.message })
@@ -211,7 +223,7 @@ const TodoProvider = ({ children }) => {
     }, [])
 
     return (
-        <TodoContext.Provider value={{ ...state, getTodos, createTodos, deleteTodos, visibleTodos, enaTodos,getGenderTypes,getGradeTypes,getMajors,getStageType,getTimeDoreType,getSchoolModalityType }}>
+        <TodoContext.Provider value={{ ...state,filterTodos, getTodos, createTodos, deleteTodos, visibleTodos, enaTodos,getGenderTypes,getGradeTypes,getMajors,getStageType,getTimeDoreType,getSchoolModalityType }}>
             {children}
         </TodoContext.Provider>
     )
