@@ -4,6 +4,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import TodoContext from "../context/TodoContext";
 import { Table } from 'react-bootstrap';
 import FilterTodos from '../components/todosC/Filter';
+// import ExpandedComponent from '../components/todosC/ExpandedComponent';
 import DeleteSer from './DeleteSer';
 import EnableSer from './EnableSer';
 import VisibleSer from './VisibleSer';
@@ -36,10 +37,10 @@ const Todos = () => {
         console.log('state', selectedRows);
     }, [selectedRows]);
 
-    const handleButtonClick = () => {
+    // const handleButtonClick = () => {
 
-        console.log('clicked');
-    };
+    //     console.log('clicked');
+    // };
 
     const handleChange = useCallback(state => {
         setSelectedRows(state.selectedRows);
@@ -50,50 +51,118 @@ const Todos = () => {
             {
                 name: '#',
                 selector: row => row.id,
+                sortable: true,
+                reorder: true
             },
             {
                 name: 'عنوان',
-                selector: row => row.title,
+                cell: (row) =>
+                    <div className=''>
+                        {row.icon && <div><img src={`https://my.medu.ir/${row.icon}`} style={{ width: '30px' }} alt='' /></div>}
+                        {row.title}
+                    </div>
+                ,
+                sortable: true,
+                reorder: true
             },
             {
                 name: 'مخاطب',
                 selector: row => row.usertTypeTitle,
+                sortable: true,
+                reorder: true
+            },
+            {
+                name: 'جایگاه SORT',
+                selector: row => row.orderIndex,
+                sortable: true,
+                reorder: true
 
+            },
+            {
+                name: 'عملیات',
+                cell: (row) =>
+                    <VisibleSer {...row} />
+                ,
+                reorder: true
+            },
+        ],
+        [],
+    );
+    const columnsCom = useMemo(
+        () => [
+            {
+                name: '#',
+                selector: row => row.id,
+                sortable: true,
+            }, {
+                name: 'تصویر',
+                cell: (row) =>
+                    <div className='' style={{ backgroundColor: '#fff' }}>
+                        {row.icon && <div><img src={`https://my.medu.ir/${row.icon}`} style={{ width: '30px' }} alt='' /></div>}
+                    </div>
+                ,
+            },
+            {
+                name: 'عنوان',
+                selector: row => row.title,
+                sortable: true,
+                reorder: true
+            },
+            {
+                name: 'مخاطب',
+                selector: row => row.usertTypeTitle,
+                reorder: true
             },
             {
                 name: 'دسته',
                 // cell: () => row => finditem(row.parentId, todos),
-                cell: (row) => finditem(row.parentId)
-                // selector: row => row.parentId,
-
+                // cell: (row) => finditem(row.parentId),
+                // cell: (row) =>
+                //     finditem(row.parentId)
+                // ,
+                selector: row => row.parentId,
+                sortable: true,
+                reorder: true
             },
             {
                 name: 'نوع',
                 selector: row => row.urlActionTypeTitle,
-
+                reorder: true
             },
             {
                 name: 'آدرس',
                 selector: row => row.url,
+                sortable: true,
+                reorder: true
 
             },
             {
                 name: 'جایگاه SORT',
                 selector: row => row.orderIndex,
+                sortable: true,
+                reorder: true
 
             },
             {
                 name: 'پیام popup',
                 selector: row => row.popupContent,
+                reorder: true
 
             },
-            {
-                name: 'محدودیت ها',
-                cell: () => <button onClick={handleButtonClick}>محدودیت ها</button>,
-            },
+            // {
+            //     name: 'محدودیت ها',
+            //     cell: () => <button onClick={handleButtonClick}>محدودیت ها</button>,
+            // },
             {
                 name: 'عملیات',
-                selector: row => row.iron,
+                cell: (row) =>
+                    <div className='d-flex justify-content-between align-items-center fs-5'>
+                        <EnableSer {...row} />
+                        <VisibleSer {...row} />
+                        <DeleteSer serviceId={row.id} />
+                    </div>
+                ,
+                reorder: true
 
             },
         ],
@@ -107,22 +176,79 @@ const Todos = () => {
     //   }; 
 
     //  console.log(groupBy(todos.filter(e=>(e.urlActionType)),"id"))
-
+    const ExpandedComponent1 = ({ data }) => {
+        return (
+            <div className="row">
+                <div className='col-md-12'>
+                    {/* <h6>{data.parentId}</h6> */}
+                    <DataTable
+                        title={`سرویس های دسته ${data.title}`}
+                        data={todos.filter(e => (e.parentId === data.id))}
+                        columns={columnsCom}
+                        theme="dark"
+                        // conditionalRowStyles={conditionalRowStyles}
+                        highlightOnHover={true}
+                        // striped={true}
+                        defaultSortFieldId='id'
+                        dense
+                        pagination
+                    />
+                </div>
+            </div>
+        )
+    };
+    const conditionalRowStyles = [
+        {
+            when: row => row.typeId ===3,
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.9)',
+                color: 'white',
+            },
+        },
+        {
+            when: row => row.typeId ===8,
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.5)',
+                color: 'black',
+            },
+        },
+        {
+            when: row => row.typeId ===5,
+            style: {
+                backgroundColor: 'rgba(0, 50, 100, 0.4)',
+                color: 'black',
+            },
+        },
+        {
+            when: row => row.typeId ===2,
+            style: {
+                backgroundColor: 'rgba(242, 38, 19, 0.3)',
+                color: 'black',
+            },
+        },
+    ];
+    
     return (
         <div className="p-5 mt-1">
 
             <div className="row g-3">
+                <FilterTodos />
                 <DataTable
-                    title="Desserts"
-                    data={todos}
+                    title="سرویس ها"
+                    data={todos.filter(e => (e.parentId === null))}
                     columns={columns}
-                    sortactive='id'
+                    highlightOnHover={true}
+                    striped={true}
+                    defaultSortFieldId='usertTypeTitle'
+                    conditionalRowStyles={conditionalRowStyles}
+                    expandableRows={true}
+                    expandableRowsComponent={ExpandedComponent1}
+                    dense
                     pagination
                     onSelectedRowsChange={handleChange}
                 />
 
-                <FilterTodos />
-                {
+                {false &&
                     <Table responsive >
                         <thead>
                             <tr>
