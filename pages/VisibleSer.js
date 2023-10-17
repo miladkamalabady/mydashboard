@@ -28,8 +28,8 @@ const VisibleSer = (service) => {
                 </Spinner>
             </div>
                 :  service.visible ?
-                    <EyeFill role='button' onClick={() => { handleEna() }} color="royalblue" title="درحال نمایش می باشد" /> :
-                    <EyeSlash role='button' onClick={() => { handleEna() }} color="royalblue" title="مخفی می باشد" />
+                    <EyeFill role='button' onClick={() => { handleEna() }} color="white" title="درحال نمایش می باشد" /> :
+                    <EyeSlash role='button' onClick={() => { handleEna() }} color="yellow" title="مخفی می باشد" />
             }
 
         </>

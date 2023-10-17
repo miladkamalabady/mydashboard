@@ -28,7 +28,7 @@ const EnanbleSer = (service) => {
             </div>
                 : service.disable ?
                     <FileCheck onClick={() => { handleEna() }} role='button' color="red" title="غیرفعال می باشد" />
-                    : <FileCheckFill onClick={() => { handleEna() }} role='button' color="royalblue" title="فعال می باشد" />}
+                    : <FileCheckFill onClick={() => { handleEna() }} role='button' color="white" title="فعال می باشد" />}
 
         </>
     )

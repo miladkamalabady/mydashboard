@@ -1,14 +1,15 @@
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {  useContext, useEffect, useMemo } from "react";
 import TodoContext from "../context/TodoContext";
-import { Badge, Card, Col, ListGroup, Row, Table } from 'react-bootstrap';
+import { Badge, Card, Col, ListGroup,  Row, Table } from 'react-bootstrap';
 import FilterTodos from '../components/todosC/Filter';
 // import ExpandedComponent from '../components/todosC/ExpandedComponent';
 import DeleteSer from './DeleteSer';
 import EnableSer from './EnableSer';
 import VisibleSer from './VisibleSer';
 import DataTable from 'react-data-table-component';
+import { Link } from "react-router-dom";
 
 // import CreateTodo from '../components/todosC/Create';
 
@@ -31,20 +32,6 @@ const Todos = () => {
         })()
     }, [getTodos, filterTodos])
 
-    const [selectedRows, setSelectedRows] = useState([]);
-
-    useEffect(() => {
-        console.log('state', selectedRows);
-    }, [selectedRows]);
-
-    // const handleButtonClick = () => {
-
-    //     console.log('clicked');
-    // };
-
-    const handleChange = useCallback(state => {
-        setSelectedRows(state.selectedRows);
-    }, []);
 
     const columns = useMemo(
         () => [
@@ -81,8 +68,7 @@ const Todos = () => {
             {
                 name: 'عملیات',
                 cell: (row) =>
-                    <VisibleSer {...row} />
-                ,
+                    <VisibleSer {...row} />,
                 reorder: true
             },
         ],
@@ -104,6 +90,12 @@ const Todos = () => {
             },
             {
                 name: 'عنوان',
+                cell: (row) =>
+                    <div className=''>
+                        {row.title && <Link className="nav-link" to={`/services/create:${row.id}`}>{row.title}</Link>}
+                        {/* {row.title && <div>{row.title}</div>} */}
+                    </div>
+                ,
                 selector: row => row.title,
                 sortable: true,
                 reorder: true
@@ -111,17 +103,6 @@ const Todos = () => {
             {
                 name: 'مخاطب',
                 selector: row => row.usertTypeTitle,
-                reorder: true
-            },
-            {
-                name: 'دسته',
-                // cell: () => row => finditem(row.parentId, todos),
-                // cell: (row) => finditem(row.parentId),
-                // cell: (row) =>
-                //     finditem(row.parentId)
-                // ,
-                selector: row => row.parentId,
-                sortable: true,
                 reorder: true
             },
             {
@@ -149,10 +130,45 @@ const Todos = () => {
                 reorder: true
 
             },
-            // {
-            //     name: 'محدودیت ها',
-            //     cell: () => <button onClick={handleButtonClick}>محدودیت ها</button>,
-            // },
+            {
+                name: 'محدودیت ها',
+                cell: (row) =>
+                    <div>
+                        {/* <button onClick={handleButtonClick}>محدودیت ها</button>, */}
+                        {(row.userId !== 0 && <Badge bg="primary">کاربر:{row.userId}</Badge>)}
+                        {row.typeId === 2 ?
+                            <div>
+                                <Badge bg="primary">وضعیت فرزند:</Badge>
+                            </div>
+                            : (row.typeId === 3 || row.typeId === 8) ?
+                                <div>
+                                    {(row.schoolTypeId !== 0 && <Badge bg="primary">نوع مدرسه:{row.schoolTypeId}</Badge>)}
+                                    
+                                    <Badge bg="primary">پست سازمانی </Badge>
+                                </div>
+                                :
+                                <div>
+                                    {(row.stageId !== 0 && <Badge bg="primary">مقطع:{row.stageId}</Badge>)}
+                                    {(row.gradeId !== 0 && <Badge bg="primary">پایه:{row.gradeId}</Badge>)}
+                                    {(row.majorId !== 0 && <Badge bg="primary">رشته:{row.majorId}</Badge>)}
+                                    {(row.timeDoreTypeId && row.timeDoreTypeId !== 0 && <Badge bg="primary">تایم دوره:{row.timeDoreTypeId}</Badge>)}
+                                    {(row.schoolTypeId !== 0 && <Badge bg="primary">نوع مدرسه:{row.schoolTypeId}</Badge>)}
+                                    {(row.nationalityId !== 0 && <Badge bg="primary">ملیت:{row.nationalityId}</Badge>)}
+                                    {(row.genderId !== 0 && <Badge bg="primary">جنسیت{row.genderId}</Badge>)}
+                                </div>
+                        }
+                        {/* <Badge bg="primary">{row.usertTypeTitle}</Badge> */}
+                        {/* <td>{todo.typeId === 5 && (todo.stageId === 0 ? "همه" : todo.stageId)}</td>
+                            <td>{todo.typeId === 5 && (todo.gradeId === 0 ? "همه" : todo.gradeId)}</td>
+                            <td>{todo.typeId === 5 && (todo.majorId === 0 ? "همه" : todo.majorId)}</td>
+                            <td>{(todo.typeId === 5 && todo.timeDoreTypeId === 0 ? "همه" : todo.timeDoreTypeId)}</td>
+                            <td>{todo.typeId === 5 && (todo.schoolTypeId === 0 ? "همه" : todo.schoolTypeId)}</td>
+                            <td>{(todo.typeId === 5 || todo.typeId === 2) && (todo.nationalityId === 0 ? "همه" : todo.nationalityId)}</td>
+                            <td>{(todo.genderId === 0 ? "همه" : todo.genderId)}</td>
+                            <td>{(todo.userId === 0 ? "همه" : todo.userId)}</td> */}
+
+                    </div>
+            },
             {
                 name: 'عملیات',
                 cell: (row) =>
@@ -245,7 +261,6 @@ const Todos = () => {
                     expandableRowsComponent={ExpandedComponent1}
                     dense
                     pagination
-                    onSelectedRowsChange={handleChange}
                 />}
                 {todos &&
                     <div className="container mt-5">
