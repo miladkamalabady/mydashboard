@@ -22,8 +22,9 @@ const Header = () => {
             <NavLink className="nav-link" to="/">خانه</NavLink>
             <NavDropdown title="سرویس ها" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/services">لیست سرویس ها</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/Services2">لیست سرویس ها(طرح2)</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/services/create">ایجاد سرویس</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/services/create">ایجاد بخش</NavDropdown.Item>
+              {/* <NavDropdown.Item as={Link} to="/services/create">ایجاد بخش</NavDropdown.Item> */}
               <NavDropdown.Divider />
               <NavDropdown.Item href="#">
                 تغییر مقادیر اصلی

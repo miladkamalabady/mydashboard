@@ -7,12 +7,12 @@ import Swal from "sweetalert2";
 
 const TodoProvider = ({ children }) => {
     const initialState = {
-        GenderTypes:[],
-        GradeTypes:[],
-        Majors:[],
-        StageType:[],
-        TimeDoreType:[],
-        SchoolModalityType:[],
+        GenderTypes: [],
+        GradeTypes: [],
+        Majors: [],
+        StageType: [],
+        TimeDoreType: [],
+        SchoolModalityType: [],
         todos: [],
         todosAll: [],
         create: null,
@@ -105,10 +105,10 @@ const TodoProvider = ({ children }) => {
         }
     }, [])
 
-    const filterTodos = useCallback( (filter) => {
+    const filterTodos = useCallback((filter) => {
         try {
             // let payData=state.todos.filter(e=>(e.typeId===Number(filter)))
-            
+
             dispatch({ type: "SET_TODOSFilter", payload: filter })
         } catch (err) {
             dispatch({ type: "SET_TODOS", payload: [] })
@@ -123,7 +123,24 @@ const TodoProvider = ({ children }) => {
             dispatch({ type: "SET_ERROR", payload: null })
             Swal.fire({
                 icon: 'success',
-                title: 'اطلاعات با موفقیت ایجاد شد',
+                title: 'اطلاعات با موفقیت بروز شد',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        } catch (err) {
+            dispatch({ type: "SET_CREATE", payload: null })
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const updateTodos = useCallback(async (payload) => {
+        try {
+            // let url = `https://jsonplaceholder.typicode.com/todos`
+            let url = `/service/update`
+            const response = await axios.post(url, payload)
+            dispatch({ type: "SET_CREATE", payload: response.data })
+            Swal.fire({
+                icon: 'success',
+                title: response.data.data,
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -144,7 +161,7 @@ const TodoProvider = ({ children }) => {
                     showConfirmButton: false,
                     timer: 3000
                 })
-            }else{
+            } else {
                 dispatch({ type: "SET_ERROR", payload: response.data.data })
                 Swal.fire({
                     icon: 'error',
@@ -223,7 +240,7 @@ const TodoProvider = ({ children }) => {
     }, [])
 
     return (
-        <TodoContext.Provider value={{ ...state,filterTodos, getTodos, createTodos, deleteTodos, visibleTodos, enaTodos,getGenderTypes,getGradeTypes,getMajors,getStageType,getTimeDoreType,getSchoolModalityType }}>
+        <TodoContext.Provider value={{ ...state, updateTodos, filterTodos, getTodos, createTodos, deleteTodos, visibleTodos, enaTodos, getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType }}>
             {children}
         </TodoContext.Provider>
     )

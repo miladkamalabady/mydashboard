@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 const todoReducer = (state, action) => {
     switch (action.type) {
         case "SET_GenderTypes":
@@ -31,6 +33,25 @@ const todoReducer = (state, action) => {
                 SchoolModalityType: action.payload
             };
         case "SET_TODOS":
+            // let groups = []
+            // if (action.payload && action.payload.length > 0) {
+            //     groups = action.payload.reduce((groups, item) => {
+            //         const group = (groups[item.id] || []);
+            //         group.push(item);
+            //         groups[item.id] = group;
+            //         return groups;
+            //     }, {});
+
+            // }
+            // let groups1 = []
+            // Object.keys(groups).forEach(function (key, index) {
+            //     // if (groups[key].length > 1)
+            //     //     console.log(groups[key])
+            //     // else
+            //     groups1.push({...groups[key]})
+            // });
+            // console.log(groups1)
+
             return {
                 ...state,
                 todosAll: action.payload,
@@ -49,6 +70,12 @@ const todoReducer = (state, action) => {
                 todos: data
             };
         case "SET_ERROR":
+            Swal.fire({
+                icon: 'error',
+                title: action.payload,
+                showConfirmButton: false,
+                timer: 2000
+            })
             return {
                 ...state,
                 error: action.payload
