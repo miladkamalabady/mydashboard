@@ -18,7 +18,6 @@ const VisibleSer = (service) => {
                 getTodos()
                 setLoading(false)
             }, 3000);
-
     }
     return (
         <>
