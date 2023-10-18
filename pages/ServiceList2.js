@@ -48,6 +48,7 @@ const Todos = () => {
                                     <Card bg={_.typeId === 3 ? 'info' : _.typeId === 5 ? 'success' : _.typeId === 8 ? 'secondary' : _.typeId === 2 ? 'danger' : 'white'} key={_.id} text={(_.typeId === 5 || _.typeId === 2 || _.typeId === 10) ? 'dark' : 'white'}>
                                         {_.icon && <Card.Img variant="center" style={{ width: '50px', margin: 'auto' }} src={`https://my.medu.ir/${_.icon}`} />}
                                         <Card.Body>
+
                                             <Card.Title className='text-center'>{_.title}</Card.Title>
                                             <Card.Text>
                                                 <Badge bg="primary">{_.usertTypeTitle}</Badge>
@@ -58,6 +59,39 @@ const Todos = () => {
                                             {_.urlActionTypeTitle && <ListGroup.Item>نوع: {_.urlActionTypeTitle}</ListGroup.Item>}
                                             {_.url && <ListGroup.Item>آدرس: {_.url}</ListGroup.Item>}
                                             <ListGroup.Item> ترتیب: {_.orderIndex}</ListGroup.Item>
+                                            {_.genders && _.genders.length>0 &&
+                                                <ListGroup.Item>
+                                                    <Badge bg="info">
+                                                    {_.genders.map((item,idx1)=>(
+                                                        <span key={idx1}>{item.genderTitle}</span>
+                                                    ))}
+                                                    </Badge>
+                                                    <Badge bg="primary">
+                                                    {_.majors.map((item,idx1)=>(
+                                                        <span key={idx1}>{item.titlle}</span>
+                                                    ))}
+                                                    </Badge>
+                                                    <Badge bg="danger">
+                                                    {_.grades.map((item,idx1)=>(
+                                                        <span key={idx1}>{item.gradeTitle}-</span>
+                                                    ))}
+                                                    </Badge>
+                                                    <Badge bg="warning">
+                                                    {_.schoolTypes.map((item,idx1)=>(
+                                                        <span key={idx1}>{item.schoolTypeTitle}-</span>
+                                                    ))}
+                                                    </Badge>
+                                                    <Badge bg="dark">
+                                                    {_.stages.map((item,idx1)=>(
+                                                        <span key={idx1}>{item.stageTitle}-</span>
+                                                    ))}
+                                                    </Badge>
+                                                    <Badge bg="secondary">
+                                                    {_.timeDoreTypes.map((item,idx1)=>(
+                                                        <span key={idx1}>{item.timeDoreTypeTitle}-</span>
+                                                    ))}
+                                                    </Badge>
+                                                </ListGroup.Item>}
                                             {_.popupContent && <ListGroup.Item>پیام : {_.popupContent}</ListGroup.Item>}
                                         </ListGroup>
                                         <Card.Body>

@@ -21,6 +21,8 @@ const TodoProvider = ({ children }) => {
     }
     const [state, dispatch] = useReducer(todoReducer, initialState)
 
+
+
     const getGenderTypes = useCallback(async () => {
         try {
             dispatch({ type: "SET_GenderTypes", payload: [] })
@@ -132,6 +134,144 @@ const TodoProvider = ({ children }) => {
             dispatch({ type: "SET_ERROR", payload: err.message })
         }
     }, [])
+    const SetServiceNationalityMapping = useCallback(async (payload) => {
+        try {
+            let url = `/Permission/SetServiceNationalityMapping`
+                const response = await axios.post(url, payload)
+                dispatch({ type: "SET_CREATE", payload: response.data })
+                Swal.fire({
+                    icon: 'success',
+                    title: response.data.data,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+        } catch (err) {
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const SetServiceGenderMapping = useCallback(async (payload) => {
+        try {
+            let url = `/Permission/SetServiceGenderMapping`
+                const response = await axios.post(url, payload)
+                dispatch({ type: "SET_CREATE", payload: response.data })
+                Swal.fire({
+                    icon: 'success',
+                    title: response.data.data,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+        } catch (err) {
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    
+    const SetServiceMajorMapping = useCallback(async (payload) => {
+        try {
+            let url = `/Permission/SetServiceMajorMapping`
+            if (payload && payload.majorId?.length > 0) {
+                const t = []
+                payload.majorId.forEach(element => {
+                    t.push({ majorId: element.id, serviceId: payload.serviceId })
+                });
+                const response = await axios.post(url, t)
+                dispatch({ type: "SET_CREATE", payload: response.data })
+                Swal.fire({
+                    icon: 'success',
+                    title: response.data.data,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+        } catch (err) {
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const SetServiceTimeDoreTypeMapping = useCallback(async (payload) => {
+        try {
+            let url = `/Permission/SetServiceTimeDoreTypeMapping`
+            if (payload && payload.timeDoreTypeId?.length > 0) {
+                const t = []
+                payload.timeDoreTypeId.forEach(element => {
+                    t.push({ timeDoreTypeId: element.value, serviceId: payload.serviceId })
+                });
+                const response = await axios.post(url, t)
+                dispatch({ type: "SET_CREATE", payload: response.data })
+                Swal.fire({
+                    icon: 'success',
+                    title: response.data.data,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+        } catch (err) {
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const SetServiceSchoolTypeMapping = useCallback(async (payload) => {
+        try {
+            let url = `/Permission/SetServiceSchoolTypeMapping`
+            if (payload && payload.schoolTypeId?.length > 0) {
+                const t = []
+                payload.schoolTypeId.forEach(element => {
+                    t.push({ schoolTypeId: element.value, serviceId: payload.serviceId })
+                });
+                const response = await axios.post(url, t)
+                dispatch({ type: "SET_CREATE", payload: response.data })
+                Swal.fire({
+                    icon: 'success',
+                    title: response.data.data,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+        } catch (err) {
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const SetServiceStageMapping = useCallback(async (payload) => {
+        try {
+            let url = `/Permission/SetServiceStageMapping`
+            if (payload && payload.stageId?.length > 0) {
+                const t = []
+                payload.stageId.forEach(element => {
+                    t.push({ stageId: element.value, serviceId: payload.serviceId })
+                });
+                const response = await axios.post(url, t)
+                dispatch({ type: "SET_CREATE", payload: response.data })
+                Swal.fire({
+                    icon: 'success',
+                    title: response.data.data,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+        } catch (err) {
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+    const SetServiceGradeMapping = useCallback(async (payload) => {
+        try {
+            let url = `/Permission/SetServiceGradeMapping`
+            console.log(payload.gradeId);
+            if (payload && payload.gradeId?.length > 0) {
+                const t = []
+                payload.gradeId.forEach(element => {
+                    
+                    t.push({ gradeId: element.value, serviceId: payload.serviceId })
+                });
+                const response = await axios.post(url, t)
+                dispatch({ type: "SET_CREATE", payload: response.data })
+                Swal.fire({
+                    icon: 'success',
+                    title: response.data.data,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+        } catch (err) {
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
     const updateTodos = useCallback(async (payload) => {
         try {
             // let url = `https://jsonplaceholder.typicode.com/todos`
@@ -240,7 +380,11 @@ const TodoProvider = ({ children }) => {
     }, [])
 
     return (
-        <TodoContext.Provider value={{ ...state, updateTodos, filterTodos, getTodos, createTodos, deleteTodos, visibleTodos, enaTodos, getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType }}>
+        <TodoContext.Provider value={{
+            ...state,
+            SetServiceGenderMapping,SetServiceNationalityMapping,SetServiceGradeMapping,SetServiceMajorMapping,SetServiceStageMapping,SetServiceTimeDoreTypeMapping,SetServiceSchoolTypeMapping,
+            updateTodos, filterTodos, getTodos, createTodos, deleteTodos, visibleTodos, enaTodos, getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType
+        }}>
             {children}
         </TodoContext.Provider>
     )

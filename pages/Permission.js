@@ -4,20 +4,23 @@ import TodoContext from "../context/TodoContext";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 const CreateService = () => {
-    const navigate = useNavigate();
     const { id } = useParams();
-    const { createTodos, getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType,
+    const { SetServiceGenderMapping, SetServiceGradeMapping, SetServiceStageMapping, SetServiceMajorMapping, SetServiceTimeDoreTypeMapping, SetServiceSchoolTypeMapping,
+        getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType, SetServiceNationalityMapping,
         GenderTypes, Majors, StageType, TimeDoreType, SchoolModalityType, GradeTypes, getTodos, todos } = useContext(TodoContext)
     const [loading, setLoading] = useState(false);
-    const [validated, setValidated] = useState(false);
+    // const [validated, setValidated] = useState(false);
     const [mokhatab, setmokhatab] = useState(0);
     const [dataId, setdataId] = useState([]);
+
+    const [nationality, setNationality] = useState(0);
+    const [gender, setGender] = useState(0);
     const [multiSelectionsMaghta, setMultiSelectionsMaghta] = useState([]);
     const [multiSelectionsPaye, setMultiSelectionsPaye] = useState([]);
     const [multiSelectionsMajor, setMultiSelectionsMajor] = useState([]);
@@ -36,70 +39,136 @@ const CreateService = () => {
                 getTodos()
             }
         })()
-    }, [dataId, getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType])
+    }, [dataId, getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType,getTodos])
 
+//     useEffect(() => {
+//         (() => {
+// console.log(multiSelectionsMaghta);
+//     })()
+//     }, [multiSelectionsMaghta])   
+         
     useEffect(() => {
         (() => {
             setdataId(...todos.filter(e => (e.id === Number(id))))
 
-            if (dataId)
+            if (dataId) {
+                // if ('text' !== 'stageTitle') {
+                //     Object.defineProperty(dataId.stages, 'stageTitle',
+                //         Object.getOwnPropertyDescriptor(dataId.stages, 'text'));
+                //     delete dataId.stages['text'];
+                // }
+                // let t =[]
+                // dataId.stages[0].map((_, idx) => (
+
+                // ))
+                console.log(dataId.stages);
                 setmokhatab(dataId.typeId)
+                // setMultiSelectionsMaghta(dataId.stages)
+            }
         })()
     }, [todos, id, dataId])
-    const handleSubmit = async (e) => {
-        const form = e.currentTarget;
+    const handleSubmitNationality = async (e) => {
         e.preventDefault();
-        setValidated(true);
-        if (form.checkValidity() === false) {
-            e.stopPropagation(); setValidated(true);
-        }
-        else {
-            setLoading(true)
-            await createTodos(form)
-            setLoading(false)
-            setTimeout(() => {
-                navigate("/services");
-            }, 2000);
-        }
+        setLoading(true)
+        if (nationality?.target?.value && nationality?.target?.value !== 'همه')
+            await SetServiceNationalityMapping([{ nationalityId: nationality.target.value, serviceId: id }])
+        else
+            await SetServiceNationalityMapping([{ nationalityId: null, serviceId: id }])
+        setLoading(false)
+    }
+    const handleSubmitGender = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        if (gender?.target?.value && gender?.target?.value !== 'همه')
+            await SetServiceGenderMapping([{ genderId: gender.target.value, serviceId: id }])
+        else
+            await SetServiceGenderMapping([{ genderId: null, serviceId: id }])
+        setLoading(false)
+    }
+    const handleSubmitGrade = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        if (multiSelectionsPaye?.length > 0)
+            await SetServiceGradeMapping({ gradeId: [...multiSelectionsPaye], serviceId: Number(id) })
+        else
+            await SetServiceGradeMapping({ gradeId: [{ value: null }], serviceId: Number(id) })
+        setLoading(false)
+    }
+    const handleSubmitMaghta = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        if (multiSelectionsMaghta?.length > 0)
+            await SetServiceStageMapping({ stageId: [...multiSelectionsMaghta], serviceId: Number(id) })
+        else
+            await SetServiceStageMapping({ stageId: [{ value: null }], serviceId: Number(id) })
+        setLoading(false)
+    }
+    const handleSubmitTypeMapping = async (e) => {
+        e.preventDefault();
+        if (multiSelectionsTime?.length > 0)
+            await SetServiceTimeDoreTypeMapping({ timeDoreTypeId: [...multiSelectionsTime], serviceId: Number(id) })
+        else
+            await SetServiceTimeDoreTypeMapping({ timeDoreTypeId: [{ value: null }], serviceId: Number(id) })
+        setLoading(false)
+    }
+    const handleSubmitSchoolType = async (e) => {
+        e.preventDefault();
+        console.log(multiSelectionsSchool);
+        if (multiSelectionsSchool?.length > 0)
+            await SetServiceSchoolTypeMapping({ schoolTypeId: [...multiSelectionsSchool], serviceId: Number(id) })
+        else
+            await SetServiceSchoolTypeMapping({ schoolTypeId: [{ value: null }], serviceId: Number(id) })
+        setLoading(false)
+    }
+    const handleSubmitMajor = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        if (multiSelectionsMajor?.length > 0)
+            await SetServiceMajorMapping({ majorId: [...multiSelectionsMajor], serviceId: Number(id) })
+        else
+            await SetServiceMajorMapping({ majorId: [{ value: null }], serviceId: Number(id) })
+        setLoading(false)
     }
     return (
         <div className="p-5 mt-1 row">
             <div className='col-md-12'>
                 {id && dataId ?
                     <div>
-                        <Form noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}>
-                            <Row className="mb-3">
-                                <Col>تنظیمات دسترسی های سرویس: {dataId.title}</Col>
-
-                            </Row>
-                            <Row className="mb-3">
-                                {mokhatab === 5 &&
+                        {/* <Form noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}> */}
+                        <Row className="mb-3">
+                            <Col>تنظیمات دسترسی های سرویس: {dataId.title}</Col>
+                        </Row>
+                        <Row className="mb-3 ">
+                            {mokhatab === 5 &&
+                                <Form onSubmit={(e) => handleSubmitMaghta(e)}>
                                     <Form.Group as={Col} md="3" >
                                         <Form.Label>مقطع:</Form.Label>
                                         <Typeahead
                                             id="maghta"
                                             labelKey="text"
                                             name="maghta"
-                                            // defaultSelected={dataId.gradeId}
                                             multiple
                                             onChange={setMultiSelectionsMaghta}
                                             options={StageType}
                                             placeholder="مقطع/مقاطع را انتخاب کنید"
                                             selected={multiSelectionsMaghta}
                                         />
-                                        {/* <Form.Select required name="maghta" aria-label="Default select ">
-                                    <option value="">همه</option>
-                                    {
-                                        StageType.map(function (Stage) {
-                                            return <option key={Stage.value} value={Stage.value}>{Stage.text}</option>
-                                        })
-                                    }
-                                </Form.Select> */}
                                         <Form.Control.Feedback type="invalid">
                                             مقطع را انتخاب کنید
                                         </Form.Control.Feedback>
+                                        <Button className="mt-4" variant="primary" type="submit" >
+                                            {loading ?
+                                                <Spinner animation="border" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </Spinner>
+                                                :
+                                                "ثبت"
+                                            }
+                                        </Button>
                                     </Form.Group>
-                                }{mokhatab === 5 &&
+                                </Form>
+                            }{mokhatab === 5 &&
+                                <Form onSubmit={(e) => handleSubmitGrade(e)}>
                                     <Form.Group as={Col} md="3" >
                                         <Form.Label>پایه:</Form.Label>
                                         <Typeahead
@@ -116,8 +185,19 @@ const CreateService = () => {
                                         <Form.Control.Feedback type="invalid">
                                             پایه را انتخاب کنید
                                         </Form.Control.Feedback>
+                                        <Button className="mt-4" variant="primary" type="submit" >
+                                            {loading ?
+                                                <Spinner animation="border" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </Spinner>
+                                                :
+                                                "ثبت"
+                                            }
+                                        </Button>
                                     </Form.Group>
-                                }{mokhatab === 5 &&
+                                </Form>
+                            }{mokhatab === 5 &&
+                                <Form onSubmit={(e) => handleSubmitMajor(e)}>
                                     <Form.Group as={Col} md="3" >
                                         <Form.Label>رشته:</Form.Label>
                                         <Typeahead
@@ -134,19 +214,41 @@ const CreateService = () => {
                                             رشته را انتخاب کنید
                                         </Form.Control.Feedback>
                                     </Form.Group>
-                                }{mokhatab === 5 &&
+                                    <Button className="mt-4" variant="primary" type="submit" >
+                                        {loading ?
+                                            <Spinner animation="border" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </Spinner>
+                                            :
+                                            "ثبت"
+                                        }
+                                    </Button>
+                                </Form>
+                            }{mokhatab === 5 &&
+                                <Form onSubmit={(e) => handleSubmitNationality(e)}>
                                     <Form.Group as={Col} md="3" >
                                         <Form.Label>ملیت:</Form.Label>
-                                        <Form.Select aria-label="Default select ">
-                                            <option value="">همه</option>
-                                            <option value="3">ایرانی</option>
-                                            <option value="8">اتباع</option>
+                                        <Form.Select onChange={setNationality} aria-label="Default select ">
+                                            <option value={null}>همه</option>
+                                            <option value="1">ایرانی</option>
+                                            <option value="2">اتباع</option>
                                         </Form.Select>
                                         <Form.Control.Feedback type="invalid">
                                             ملیت را انتخاب کنید
                                         </Form.Control.Feedback>
+                                        <Button className="mt-4" variant="primary" type="submit" >
+                                            {loading ?
+                                                <Spinner animation="border" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </Spinner>
+                                                :
+                                                "ثبت"
+                                            }
+                                        </Button>
                                     </Form.Group>
-                                }{mokhatab === 5 &&
+                                </Form>
+                            }{mokhatab === 5 &&
+                                <Form onSubmit={(e) => handleSubmitTypeMapping(e)}>
                                     <Form.Group as={Col} md="3" >
                                         <Form.Label>تایم دوره:</Form.Label>
                                         <Typeahead
@@ -162,8 +264,19 @@ const CreateService = () => {
                                         <Form.Control.Feedback type="invalid">
                                             تایم دوره را انتخاب کنید
                                         </Form.Control.Feedback>
+                                        <Button className="mt-4" variant="primary" type="submit" >
+                                            {loading ?
+                                                <Spinner animation="border" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </Spinner>
+                                                :
+                                                "ثبت"
+                                            }
+                                        </Button>
                                     </Form.Group>
-                                }{mokhatab === 5 &&
+                                </Form>
+                            }{mokhatab === 5 &&
+                                <Form onSubmit={(e) => handleSubmitSchoolType(e)}>
                                     <Form.Group as={Col} md="3" >
                                         <Form.Label>نوع مدرسه:</Form.Label>
                                         <Typeahead
@@ -179,39 +292,50 @@ const CreateService = () => {
                                         <Form.Control.Feedback type="invalid">
                                             نوع مدرسه را انتخاب کنید
                                         </Form.Control.Feedback>
+                                        <Button className="mt-4" variant="primary" type="submit" >
+                                            {loading ?
+                                                <Spinner animation="border" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </Spinner>
+                                                :
+                                                "ثبت"
+                                            }
+                                        </Button>
                                     </Form.Group>
-                                }
-                            </Row>
-                            <Row className="mb-3">
-                                {(mokhatab === 3 || mokhatab === 8) &&
-                                    <Form.Group as={Col} md="3" >
-                                        <Form.Label>پست سازمانی:</Form.Label>
-                                        <Form.Select required aria-label="Default select ">
-                                            <option value="">همه</option>
-                                            <option value="1">به زودی...</option>
-                                        </Form.Select>
-                                        <Form.Control.Feedback type="invalid">
-                                            پست سازمانی را انتخاب کنید
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-                                }
-                                {mokhatab === 2 &&
-                                    <Form.Group as={Col} md="3" >
-                                        <Form.Label>وضعیت فرزند:</Form.Label>
-                                        <Form.Select required aria-label="Default select ">
-                                            <option value="">همه</option>
-                                            <option value="1">دارد</option>
-                                            <option value="2">ندارد</option>
-                                        </Form.Select>
-                                        <Form.Control.Feedback type="invalid">
-                                            وضعیت فرزند را انتخاب کنید
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-                                }
+                                </Form>
+                            }
+                        </Row>
+                        <Row className="mb-3">
+                            {(mokhatab === 3 || mokhatab === 8) &&
+                                <Form.Group as={Col} md="3" >
+                                    <Form.Label>پست سازمانی:</Form.Label>
+                                    <Form.Select required aria-label="Default select ">
+                                        <option value="">همه</option>
+                                        <option value="1">به زودی...</option>
+                                    </Form.Select>
+                                    <Form.Control.Feedback type="invalid">
+                                        پست سازمانی را انتخاب کنید
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            }
+                            {mokhatab === 2 &&
+                                <Form.Group as={Col} md="3" >
+                                    <Form.Label>وضعیت فرزند:</Form.Label>
+                                    <Form.Select required aria-label="Default select ">
+                                        <option value="">همه</option>
+                                        <option value="1">دارد</option>
+                                        <option value="2">ندارد</option>
+                                    </Form.Select>
+                                    <Form.Control.Feedback type="invalid">
+                                        وضعیت فرزند را انتخاب کنید
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            }
+                            <Form onSubmit={(e) => handleSubmitGender(e)}>
                                 <Form.Group as={Col} md="3" >
                                     <Form.Label>جنسیت:</Form.Label>
-                                    <Form.Select aria-label="Default select ">
-                                        <option value="">همه</option>
+                                    <Form.Select onChange={setGender} aria-label="Default select ">
+                                        <option value={null}>همه</option>
                                         {
                                             GenderTypes.map(function (gender) {
                                                 return <option key={gender.value} value={gender.value}>{gender.text}</option>
@@ -221,26 +345,39 @@ const CreateService = () => {
                                     <Form.Control.Feedback type="invalid">
                                         جنسیت را انتخاب کنید
                                     </Form.Control.Feedback>
+                                    <Button className="mt-4" variant="primary" type="submit" >
+                                        {loading ?
+                                            <Spinner animation="border" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </Spinner>
+                                            :
+                                            "ثبت"
+                                        }
+                                    </Button>
                                 </Form.Group>
+                            </Form>
+                            {false &&
+                                <Form onSubmit={(e) => handleSubmitGender(e)}>
+                                    <Form.Group as={Col} md="3" controlId="validationTitle">
+                                        <Form.Label>محدودیت کاربر:</Form.Label>
+                                        <Form.Control type="text" className="mx-2" placeholder='کاربر' />
+                                        <Form.Control.Feedback type="invalid">
+                                            کاربر را وارد کنید
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                    <Button className="mt-4" variant="primary" type="submit" >
+                                        {loading ?
+                                            <Spinner animation="border" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </Spinner>
+                                            :
+                                            "ثبت"
+                                        }
+                                    </Button>
+                                </Form>
+                            }
+                        </Row>
 
-                                <Form.Group as={Col} md="3" controlId="validationTitle">
-                                    <Form.Label>محدودیت کاربر:</Form.Label>
-                                    <Form.Control type="text" className="mx-2" placeholder='کاربر' />
-                                    <Form.Control.Feedback type="invalid">
-                                        کاربر را وارد کنید
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Button className="mt-4" variant="primary" type="submit" >
-                                {loading ?
-                                    <Spinner animation="border" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                    </Spinner>
-                                    :
-                                    "ثبت"
-                                }
-                            </Button>
-                        </Form>
                     </div>
                     : id && !dataId ?
                         <div>
