@@ -32,15 +32,15 @@ const CreateService = () => {
             if (dataId) {
                 setmokhatab(dataId.typeId)
                 setParentId(dataId.parentId)
-                if(dataId.popupContent)
-                setData({
-                    ...dataId,
-                })
+                if (dataId.popupContent)
+                    setData({
+                        ...dataId,
+                    })
                 else
-                setData({
-                    ...dataId,
-                    popupContent:""
-                })
+                    setData({
+                        ...dataId,
+                        popupContent: ""
+                    })
             }
         })()
     }, [todos, id, dataId])

@@ -40,12 +40,7 @@ const CreateService = () => {
             }
         })()
     }, [dataId, getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType,getTodos])
-
-//     useEffect(() => {
-//         (() => {
-// console.log(multiSelectionsMaghta);
-//     })()
-//     }, [multiSelectionsMaghta])   
+ 
          
     useEffect(() => {
         (() => {
@@ -61,7 +56,6 @@ const CreateService = () => {
                 // dataId.stages[0].map((_, idx) => (
 
                 // ))
-                console.log(dataId.stages);
                 setmokhatab(dataId.typeId)
                 // setMultiSelectionsMaghta(dataId.stages)
             }
@@ -113,7 +107,6 @@ const CreateService = () => {
     }
     const handleSubmitSchoolType = async (e) => {
         e.preventDefault();
-        console.log(multiSelectionsSchool);
         if (multiSelectionsSchool?.length > 0)
             await SetServiceSchoolTypeMapping({ schoolTypeId: [...multiSelectionsSchool], serviceId: Number(id) })
         else

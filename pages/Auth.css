@@ -1,0 +1,17 @@
+
+  
+  .Auth-form-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+  }
+  
+  
+  
+  .Auth-form-content {
+	padding-left: 12%;
+	padding-right: 12%;
+  }
+  

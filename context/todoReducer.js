@@ -32,6 +32,11 @@ const todoReducer = (state, action) => {
                 ...state,
                 SchoolModalityType: action.payload
             };
+        case "SET_Auth":
+            return {
+                ...state,
+                User: action.payload
+            };
         case "SET_TODOS":
             // let groups = []
             // if (action.payload && action.payload.length > 0) {

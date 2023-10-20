@@ -1,12 +1,17 @@
 
-import { useReducer, useCallback } from "react"
+import { useReducer, useCallback, useContext } from "react"
 import TodoContext from "./TodoContext";
 import todoReducer from "./todoReducer";
 import axios from '../axiosConfig';
 import Swal from "sweetalert2";
+import { AuthContext } from "./auth/AuthContext";
+
 
 const TodoProvider = ({ children }) => {
+
+    const [authState, setAuthState] = useContext(AuthContext);
     const initialState = {
+        User: null,
         GenderTypes: [],
         GradeTypes: [],
         Majors: [],
@@ -20,8 +25,6 @@ const TodoProvider = ({ children }) => {
         errorp: null
     }
     const [state, dispatch] = useReducer(todoReducer, initialState)
-
-
 
     const getGenderTypes = useCallback(async () => {
         try {
@@ -90,13 +93,38 @@ const TodoProvider = ({ children }) => {
         }
     }, [])
 
-    const getTodos = useCallback(async (limit = "10") => {
+    const checkAuth = useCallback(async (payload) => {
+        try {
+            dispatch({ type: "SET_Auth", payload: [] })
+            let url = `/service/Auth`
+            const response = await axios.post(url, payload)
+
+            dispatch({ type: "SET_Auth", payload: response.data.data })
+        } catch (err) {
+            setAuthState({
+                userIsLoggedin: true,
+                fName: "test fname",
+                lName: "test lname",
+                userName: "testname"
+            });
+            console.log(authState);
+            dispatch({
+                type: "SET_Auth", payload: {
+                    userIsLoggedin: true,
+                    fName: "test fname",
+                    lName: "test lname",
+                    userName: "testname"
+                }
+            })
+            dispatch({ type: "SET_ERROR", payload: err.message })
+        }
+    }, [])
+
+    const getTodos = useCallback(async () => {
         try {
             dispatch({ type: "SET_TODOS", payload: [] })
             let url = `/service/GetServices`
             // let url=`https://my-json-server.typicode.com/miladkamalabady/mydashboard/main/db.json/icons`
-            if (limit !== 'All')
-                url += `?_limit=${limit}`
             const response = await axios.get(url)
 
             dispatch({ type: "SET_TODOS", payload: response.data.data })
@@ -137,14 +165,14 @@ const TodoProvider = ({ children }) => {
     const SetServiceNationalityMapping = useCallback(async (payload) => {
         try {
             let url = `/Permission/SetServiceNationalityMapping`
-                const response = await axios.post(url, payload)
-                dispatch({ type: "SET_CREATE", payload: response.data })
-                Swal.fire({
-                    icon: 'success',
-                    title: response.data.data,
-                    showConfirmButton: false,
-                    timer: 2000
-                })
+            const response = await axios.post(url, payload)
+            dispatch({ type: "SET_CREATE", payload: response.data })
+            Swal.fire({
+                icon: 'success',
+                title: response.data.data,
+                showConfirmButton: false,
+                timer: 2000
+            })
         } catch (err) {
             dispatch({ type: "SET_ERROR", payload: err.message })
         }
@@ -152,19 +180,19 @@ const TodoProvider = ({ children }) => {
     const SetServiceGenderMapping = useCallback(async (payload) => {
         try {
             let url = `/Permission/SetServiceGenderMapping`
-                const response = await axios.post(url, payload)
-                dispatch({ type: "SET_CREATE", payload: response.data })
-                Swal.fire({
-                    icon: 'success',
-                    title: response.data.data,
-                    showConfirmButton: false,
-                    timer: 2000
-                })
+            const response = await axios.post(url, payload)
+            dispatch({ type: "SET_CREATE", payload: response.data })
+            Swal.fire({
+                icon: 'success',
+                title: response.data.data,
+                showConfirmButton: false,
+                timer: 2000
+            })
         } catch (err) {
             dispatch({ type: "SET_ERROR", payload: err.message })
         }
     }, [])
-    
+
     const SetServiceMajorMapping = useCallback(async (payload) => {
         try {
             let url = `/Permission/SetServiceMajorMapping`
@@ -252,11 +280,10 @@ const TodoProvider = ({ children }) => {
     const SetServiceGradeMapping = useCallback(async (payload) => {
         try {
             let url = `/Permission/SetServiceGradeMapping`
-            console.log(payload.gradeId);
             if (payload && payload.gradeId?.length > 0) {
                 const t = []
                 payload.gradeId.forEach(element => {
-                    
+
                     t.push({ gradeId: element.value, serviceId: payload.serviceId })
                 });
                 const response = await axios.post(url, t)
@@ -382,7 +409,8 @@ const TodoProvider = ({ children }) => {
     return (
         <TodoContext.Provider value={{
             ...state,
-            SetServiceGenderMapping,SetServiceNationalityMapping,SetServiceGradeMapping,SetServiceMajorMapping,SetServiceStageMapping,SetServiceTimeDoreTypeMapping,SetServiceSchoolTypeMapping,
+            checkAuth,
+            SetServiceGenderMapping, SetServiceNationalityMapping, SetServiceGradeMapping, SetServiceMajorMapping, SetServiceStageMapping, SetServiceTimeDoreTypeMapping, SetServiceSchoolTypeMapping,
             updateTodos, filterTodos, getTodos, createTodos, deleteTodos, visibleTodos, enaTodos, getGenderTypes, getGradeTypes, getMajors, getStageType, getTimeDoreType, getSchoolModalityType
         }}>
             {children}

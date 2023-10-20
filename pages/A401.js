@@ -10,7 +10,7 @@ const A401 = () => {
             <h3 className='text-center'>لطفا ابتدا وارد حساب کاربری خود شوید!</h3>
           </Alert>
 
-          <Link to="/" className="btn btn-dark">صفحه اصلی</Link>
+          <Link to="/Auth" className="btn btn-dark">صفحه اصلی</Link>
         </div>
       </div>
     </div>
